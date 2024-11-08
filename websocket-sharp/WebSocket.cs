@@ -2271,7 +2271,8 @@ namespace WebSocketSharp
     private void setClientStream ()
     {
       if (_proxyUri != null) {
-        _tcpClient = new TcpClient (_proxyUri.DnsSafeHost, _proxyUri.Port);
+        _tcpClient = new TcpClient (AddressFamily.InterNetwork);
+        _tcpClient.Connect(_proxyUri.DnsSafeHost, _proxyUri.Port);
         _stream = _tcpClient.GetStream ();
 
         var res = sendProxyConnectRequest ();
@@ -2282,7 +2283,8 @@ namespace WebSocketSharp
           throw new WebSocketException (msg);
       }
       else {
-        _tcpClient = new TcpClient (_uri.DnsSafeHost, _uri.Port);
+        _tcpClient = new TcpClient (AddressFamily.InterNetwork);
+        _tcpClient.Connect(_uri.DnsSafeHost, _uri.Port);
         _stream = _tcpClient.GetStream ();
       }
 
